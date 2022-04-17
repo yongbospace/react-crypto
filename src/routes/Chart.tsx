@@ -24,47 +24,56 @@ function Chart() {
       refetchInterval: 1000,
     }
   );
+
   return (
     <div>
       {isLoading ? (
         "Loading chart..."
       ) : (
         <ApexChart
-          type="line"
+          type="candlestick"
           series={[
             {
-              name: "Price",
-              data: data?.map((price) => price.close) ?? [],
+              data:
+                data?.map((price) => {
+                  return {
+                    x: price.time_close.slice(5, 10),
+                    y: [
+                      price.open.toFixed(2),
+                      price.high.toFixed(2),
+                      price.low.toFixed(2),
+                      price.close.toFixed(2),
+                    ],
+                  };
+                }) ?? [],
             },
           ]}
           options={{
             theme: { mode: "dark" },
             chart: {
-              height: 300,
-              width: 500,
               toolbar: { show: false },
               background: "transparent",
             },
             stroke: {
               curve: "smooth",
-              width: 3,
+              width: 1,
             },
-            grid: { show: false },
-            yaxis: { show: false },
+            grid: { show: true },
+            yaxis: { show: true },
             xaxis: {
-              labels: { show: false },
+              labels: {
+                show: true,
+              },
               axisTicks: { show: false },
               axisBorder: { show: false },
-              type: "datetime",
-              categories: data?.map((price) => price.time_close) ?? [],
             },
-            fill: {
-              type: "gradient",
-              gradient: { gradientToColors: ["#0be881"], stops: [0, 100] },
-            },
-            colors: ["#ff5e57"],
-            tooltip: {
-              y: { formatter: (value) => `$ ${value.toFixed(2)}` },
+            plotOptions: {
+              candlestick: {
+                colors: {
+                  upward: "#0fbcf9",
+                  downward: "#ff3f34",
+                },
+              },
             },
           }}
         />

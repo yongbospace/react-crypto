@@ -24,7 +24,7 @@ const Header = styled.header`
   justify-content: center;
   align-items: center;
 `;
-const Tilte = styled.h1`
+const Title = styled.h1`
   font-size: 48px;
   color: ${(props) => props.theme.accentColor};
 `;
@@ -61,9 +61,10 @@ const Description = styled.p`
 
 const Taps = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 2fr 2fr 1fr;
   margin-top: 30px;
-  gap: 20px;
+  gap: 10px;
+  margin-bottom: 20px;
 `;
 const Tap = styled.span<{ isActive: boolean }>`
   text-align: center;
@@ -73,11 +74,24 @@ const Tap = styled.span<{ isActive: boolean }>`
   background-color: rgba(0, 0, 0, 0.5);
   padding: 7px 0px;
   border-radius: 10px;
+
   color: ${(props) =>
     props.isActive ? props.theme.accentColor : props.theme.textColor};
   a {
     display: block;
   }
+`;
+
+const Back = styled.span`
+  text-align: center;
+  text-transform: uppercase;
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  padding: 7px 0px;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.5);
 `;
 
 interface RouteState {
@@ -139,9 +153,9 @@ interface PriceData {
   };
 }
 
-interface ChartProps {
-  coinId: string;
-}
+// interface ChartProps {
+//   coinId: string;
+// }
 
 function Coin() {
   const { coinId } = useParams();
@@ -170,9 +184,9 @@ function Coin() {
         </title>
       </Helmet>
       <Header>
-        <Tilte>
+        <Title>
           {state?.name ? state.name : loading ? "Loading.." : infoData?.name}
-        </Tilte>
+        </Title>
       </Header>
       {loading ? (
         <Loader>Loading...</Loader>
@@ -211,6 +225,9 @@ function Coin() {
             <Tap isActive={priceMatch !== null}>
               <Link to={`/${coinId}/price`}>Price</Link>
             </Tap>
+            <Back>
+              <Link to="/">Back</Link>
+            </Back>
           </Taps>
         </>
       )}
