@@ -99,9 +99,7 @@ function Coins() {
         <title>Coin</title>
       </Helmet>
       <Header>
-        <Link to="/">
-          <Logo src={logo} />
-        </Link>
+        <Logo src={logo} />
         <Title>Coin</Title>
         <ModeSwitch onClick={toggleDarkAtom}>
           <span>{isDark ? "Light" : "Dark"}</span>

@@ -27,6 +27,20 @@ const Header = styled.header`
   justify-content: center;
   align-items: center;
   position: relative;
+  button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    border-radius: 7px;
+    text-transform: uppercase;
+    background-color: ${(prop) => prop.theme.cardBgColor};
+    color: ${(prop) => prop.theme.textColor};
+    border: 1px solid white;
+    width: 40px;
+    height: 40px;
+  }
 `;
 const Logo = styled.img`
   width: 50px;
@@ -35,6 +49,14 @@ const Logo = styled.img`
 const Title = styled.h1`
   font-size: 48px;
   color: ${(props) => props.theme.accentColor};
+`;
+const ModeSwitch = styled.button`
+  position: absolute;
+  right: 0px;
+`;
+const Home = styled.button`
+  position: absolute;
+  left: 0px;
 `;
 
 const Loader = styled.span`
@@ -90,22 +112,6 @@ const Tap = styled.span<{ isActive: boolean }>`
   a {
     display: block;
   }
-`;
-
-const ModeSwitch = styled.button`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-size: 10px;
-  padding: 5px;
-  border-radius: 7px;
-  text-transform: uppercase;
-  background-color: ${(prop) => prop.theme.cardBgColor};
-  color: ${(prop) => prop.theme.textColor};
-  border: 1px solid white;
-  position: absolute;
-  right: 0px;
 `;
 
 interface RouteState {
@@ -201,9 +207,12 @@ function Coin() {
         </title>
       </Helmet>
       <Header>
-        <Link to="/">
-          <Logo src={logo} />
-        </Link>
+        <Home>
+          <Link to="/">
+            <span>HOME</span>
+          </Link>
+        </Home>
+        <Logo src={logo} />
         <Title>
           {state?.name ? state.name : loading ? "Loading.." : infoData?.name}
         </Title>
