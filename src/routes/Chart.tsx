@@ -2,6 +2,8 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { fetchCoinHistory } from "../api";
 import ApexChart from "react-apexcharts";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 interface iHistorical {
   time_open: string;
@@ -15,6 +17,7 @@ interface iHistorical {
 }
 
 function Chart() {
+  const isDark = useRecoilValue(isDarkAtom);
   const params = useParams();
   const { coinId } = params;
   const { isLoading, data } = useQuery<iHistorical[]>(
@@ -49,7 +52,7 @@ function Chart() {
             },
           ]}
           options={{
-            theme: { mode: "dark" },
+            theme: { mode: isDark ? "dark" : "light" },
             chart: {
               toolbar: { show: false },
               background: "transparent",
@@ -70,8 +73,8 @@ function Chart() {
             plotOptions: {
               candlestick: {
                 colors: {
-                  upward: "#0fbcf9",
-                  downward: "#ff3f34",
+                  upward: "#ff3f34",
+                  downward: "#0fbcf9",
                 },
               },
             },

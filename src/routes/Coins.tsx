@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoins } from "../api";
 import { Helmet } from "react-helmet";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { isDataView } from "util/types";
+import { isDarkAtom } from "../atoms";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -10,17 +13,20 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 const Header = styled.header`
-  height: 10vh;
+  height: 15vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
 const CoinsList = styled.ul``;
+
 const Coin = styled.li`
-  background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  background-color: ${(props) => props.theme.cardBgColor};
+  color: ${(props) => props.theme.textColor};
   border-radius: 15px;
   margin-bottom: 10px;
+  border: 1px solid white;
   a {
     display: flex;
     align-items: center;
@@ -34,7 +40,7 @@ const Coin = styled.li`
   }
 `;
 
-const Tilte = styled.h1`
+const Title = styled.h1`
   font-size: 48px;
   color: ${(props) => props.theme.accentColor};
 `;
@@ -51,6 +57,22 @@ const Img = styled.img`
   margin-right: 10px;
 `;
 
+const ModeSwitch = styled.button`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  padding: 5px;
+  border-radius: 7px;
+  text-transform: uppercase;
+  background-color: ${(prop) => prop.theme.cardBgColor};
+  color: ${(prop) => prop.theme.textColor};
+  border: 1px solid white;
+  position: absolute;
+  right: 0px;
+`;
+
 interface ICoin {
   id: string;
   name: string;
@@ -62,6 +84,9 @@ interface ICoin {
 }
 
 function Coins() {
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const isDark = useRecoilValue(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
   return (
     <Container>
@@ -69,7 +94,11 @@ function Coins() {
         <title>Coin</title>
       </Helmet>
       <Header>
-        <Tilte>Coin</Tilte>
+        <Title>Coin</Title>
+        <ModeSwitch onClick={toggleDarkAtom}>
+          <span>{isDark ? "Light" : "Dark"}</span>
+          <span>Mode</span>
+        </ModeSwitch>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>

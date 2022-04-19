@@ -12,6 +12,8 @@ import styled from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import Chart from "./Chart";
 import Price from "./Price";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -23,6 +25,7 @@ const Header = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
 const Title = styled.h1`
   font-size: 48px;
@@ -38,7 +41,8 @@ const Loader = styled.span`
 const Overview = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(prop) => prop.theme.cardBgColor};
+  border: 1px solid white;
   padding: 10px 20px;
   border-radius: 10px;
 `;
@@ -71,7 +75,8 @@ const Tap = styled.span<{ isActive: boolean }>`
   text-transform: uppercase;
   font-size: 12px;
   font-weight: 400;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(prop) => prop.theme.cardBgColor};
+  border: 1px solid white;
   padding: 7px 0px;
   border-radius: 10px;
 
@@ -91,7 +96,24 @@ const Back = styled.span`
   padding: 7px 0px;
   border-radius: 10px;
   cursor: pointer;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(prop) => prop.theme.cardBgColor};
+  border: 1px solid white;
+`;
+
+const ModeSwitch = styled.button`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  padding: 5px;
+  border-radius: 7px;
+  text-transform: uppercase;
+  background-color: ${(prop) => prop.theme.cardBgColor};
+  color: ${(prop) => prop.theme.textColor};
+  border: 1px solid white;
+  position: absolute;
+  right: 0px;
 `;
 
 interface RouteState {
@@ -162,6 +184,9 @@ function Coin() {
   const { state } = useLocation() as RouteState;
   const priceMatch = useMatch("/:coinId/price");
   const chartMatch = useMatch("/:coinId/chart");
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const isDark = useRecoilValue(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
 
   const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
     ["info", coinId],
@@ -187,6 +212,10 @@ function Coin() {
         <Title>
           {state?.name ? state.name : loading ? "Loading.." : infoData?.name}
         </Title>
+        <ModeSwitch onClick={toggleDarkAtom}>
+          <span>{isDark ? "Light" : "Dark"}</span>
+          <span>Mode</span>
+        </ModeSwitch>
       </Header>
       {loading ? (
         <Loader>Loading...</Loader>

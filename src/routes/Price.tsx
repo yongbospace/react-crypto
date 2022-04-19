@@ -43,7 +43,8 @@ const InfoWrap = styled.div`
   gap: 20px;
   span {
     padding: 10px 5px;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: ${(prop) => prop.theme.cardBgColor};
+    border: 1px solid white;
     text-align: center;
     border-radius: 10px;
   }
