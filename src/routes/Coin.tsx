@@ -14,6 +14,7 @@ import Chart from "./Chart";
 import Price from "./Price";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isDarkAtom } from "../atoms";
+import logo from "../logo.png";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -26,6 +27,10 @@ const Header = styled.header`
   justify-content: center;
   align-items: center;
   position: relative;
+`;
+const Logo = styled.img`
+  width: 50px;
+  height: 50px;
 `;
 const Title = styled.h1`
   font-size: 48px;
@@ -65,7 +70,7 @@ const Description = styled.p`
 
 const Taps = styled.div`
   display: grid;
-  grid-template-columns: 2fr 2fr 1fr;
+  grid-template-columns: 1fr 1fr;
   margin-top: 30px;
   gap: 10px;
   margin-bottom: 20px;
@@ -85,19 +90,6 @@ const Tap = styled.span<{ isActive: boolean }>`
   a {
     display: block;
   }
-`;
-
-const Back = styled.span`
-  text-align: center;
-  text-transform: uppercase;
-  display: block;
-  font-size: 12px;
-  font-weight: 400;
-  padding: 7px 0px;
-  border-radius: 10px;
-  cursor: pointer;
-  background-color: ${(prop) => prop.theme.cardBgColor};
-  border: 1px solid white;
 `;
 
 const ModeSwitch = styled.button`
@@ -209,6 +201,9 @@ function Coin() {
         </title>
       </Helmet>
       <Header>
+        <Link to="/">
+          <Logo src={logo} />
+        </Link>
         <Title>
           {state?.name ? state.name : loading ? "Loading.." : infoData?.name}
         </Title>
@@ -254,9 +249,6 @@ function Coin() {
             <Tap isActive={priceMatch !== null}>
               <Link to={`/${coinId}/price`}>Price</Link>
             </Tap>
-            <Back>
-              <Link to="/">Back</Link>
-            </Back>
           </Taps>
         </>
       )}

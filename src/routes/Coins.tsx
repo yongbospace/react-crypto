@@ -4,8 +4,8 @@ import styled from "styled-components";
 import { fetchCoins } from "../api";
 import { Helmet } from "react-helmet";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { isDataView } from "util/types";
 import { isDarkAtom } from "../atoms";
+import logo from "../logo.png";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -57,6 +57,11 @@ const Img = styled.img`
   margin-right: 10px;
 `;
 
+const Logo = styled.img`
+  width: 50px;
+  height: 50px;
+`;
+
 const ModeSwitch = styled.button`
   display: flex;
   flex-direction: column;
@@ -94,6 +99,9 @@ function Coins() {
         <title>Coin</title>
       </Helmet>
       <Header>
+        <Link to="/">
+          <Logo src={logo} />
+        </Link>
         <Title>Coin</Title>
         <ModeSwitch onClick={toggleDarkAtom}>
           <span>{isDark ? "Light" : "Dark"}</span>
