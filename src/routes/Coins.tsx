@@ -40,9 +40,15 @@ const Coin = styled.li`
   }
 `;
 
+const Logo = styled.img`
+  width: 48px;
+  height: 48px;
+`;
 const Title = styled.h1`
-  font-size: 48px;
+  font-size: 42px;
   color: ${(props) => props.theme.accentColor};
+  text-transform: uppercase;
+  font-weight: 600;
 `;
 
 const Loader = styled.span`
@@ -55,11 +61,6 @@ const Img = styled.img`
   width: 25px;
   height: 25px;
   margin-right: 10px;
-`;
-
-const Logo = styled.img`
-  width: 50px;
-  height: 50px;
 `;
 
 const ModeSwitch = styled.button`
@@ -100,7 +101,17 @@ function Coins() {
       </Helmet>
       <Header>
         <Logo src={logo} />
-        <Title>Coin</Title>
+        <Title
+          style={
+            isDark
+              ? {
+                  textShadow: "10px 10px 6px #1e272e",
+                }
+              : { textShadow: "5px 5px 3px #d2dae2" }
+          }
+        >
+          Coin
+        </Title>
         <ModeSwitch onClick={toggleDarkAtom}>
           <span>{isDark ? "Light" : "Dark"}</span>
           <span>Mode</span>

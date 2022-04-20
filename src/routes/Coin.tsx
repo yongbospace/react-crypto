@@ -14,7 +14,6 @@ import Chart from "./Chart";
 import Price from "./Price";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isDarkAtom } from "../atoms";
-import logo from "../logo.png";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -43,11 +42,13 @@ const Header = styled.header`
   }
 `;
 const Logo = styled.img`
-  width: 50px;
-  height: 50px;
+  width: 28px;
+  height: 28px;
+  margin-right: 5px;
 `;
 const Title = styled.h1`
-  font-size: 48px;
+  font-size: 28px;
+  font-weight: 600;
   color: ${(props) => props.theme.accentColor};
 `;
 const ModeSwitch = styled.button`
@@ -173,10 +174,6 @@ interface PriceData {
   };
 }
 
-// interface ChartProps {
-//   coinId: string;
-// }
-
 function Coin() {
   const { coinId } = useParams();
   const { state } = useLocation() as RouteState;
@@ -212,8 +209,16 @@ function Coin() {
             <span>HOME</span>
           </Link>
         </Home>
-        <Logo src={logo} />
-        <Title>
+        <Logo src={`https://cryptocurrencyliveprices.com/img/${coinId}.png`} />
+        <Title
+          style={
+            isDark
+              ? {
+                  textShadow: "6px 6px 4px #1e272e",
+                }
+              : { textShadow: "3px 3px 2px #d2dae2" }
+          }
+        >
           {state?.name ? state.name : loading ? "Loading.." : infoData?.name}
         </Title>
         <ModeSwitch onClick={toggleDarkAtom}>
