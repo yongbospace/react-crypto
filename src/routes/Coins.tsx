@@ -97,7 +97,7 @@ function Coins() {
   return (
     <Container>
       <Helmet>
-        <title>Coin</title>
+        <title>Crypto</title>
       </Helmet>
       <Header>
         <Logo src={logo} />
@@ -110,7 +110,7 @@ function Coins() {
               : { textShadow: "5px 5px 3px #d2dae2" }
           }
         >
-          Coin
+          Crypto
         </Title>
         <ModeSwitch onClick={toggleDarkAtom}>
           <span>{isDark ? "Light" : "Dark"}</span>
