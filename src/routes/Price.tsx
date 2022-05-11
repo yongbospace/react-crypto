@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { fetchCoinTickers } from "../api";
+import { fetchCoinPrice } from "../api";
 
 interface PriceData {
   id: string;
@@ -50,32 +50,65 @@ const InfoWrap = styled.div`
   }
 `;
 
+interface IPrice {
+  close: number;
+  high: number;
+  low: number;
+  market_cap: number;
+  open: number;
+  time_close: string;
+  time_open: string;
+  volume: number;
+}
+
 function Price() {
   const params = useParams();
   const { coinId } = params;
-  const { isLoading, data } = useQuery<PriceData>(["price", coinId], () =>
-    fetchCoinTickers(coinId!)
+  const { isLoading, data } = useQuery<IPrice[]>(["price", coinId], () =>
+    fetchCoinPrice(coinId!)
   );
-
+  const coinPrice: any = data ? data[0] : {};
   return (
     <div>
       {isLoading ? (
         "Loading chart..."
       ) : (
         <InfoWrap>
-          <span>Price : </span>
+          <span>Open</span>
           <span>
-            {data?.quotes.USD.price.toLocaleString("us-EN", {
-              style: "currency",
-              currency: "USD",
+            US${" "}
+            {coinPrice.open.toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
             })}
           </span>
 
-          <span>Market Cap : </span>
-          <span>{data?.quotes.USD.market_cap.toFixed(0)}</span>
+          <span>Close</span>
+          <span>
+            US${" "}
+            {coinPrice.close.toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </span>
 
-          <span>Volume 24hr : </span>
-          <span>{data?.quotes.USD.volume_24h.toFixed(0)}</span>
+          <span>High</span>
+          <span>
+            US${" "}
+            {coinPrice.high.toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            }) || {}}
+          </span>
+
+          <span>Low</span>
+          <span>
+            US${" "}
+            {coinPrice.low.toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </span>
         </InfoWrap>
       )}
     </div>
