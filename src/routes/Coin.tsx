@@ -241,7 +241,12 @@ function Coin() {
             </OverviewItem>
             <OverviewItem>
               <span>Price:</span>
-              <span>{tickersData?.quotes.USD.price.toFixed(5)}</span>
+              <span>
+                {tickersData?.quotes.USD.price.toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
